@@ -13,14 +13,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
 import axios from 'axios';
-/*
+import FormData from 'form-data'
 
-FormLabel
-FormHelperText
-Input
-InputLabel
-
-*/
 
 
 
@@ -41,10 +35,9 @@ class App extends Component {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Link to='/g'>
-            Learn React
-            </Link>
+            <Link to='/g'> Learn React </Link>
             <Route path='/g' component= {RestCard}>
+
             </Route>
           </a>
         </header>
@@ -55,6 +48,29 @@ class App extends Component {
 }
 
 
+class GetButton extends Component{
+
+    handleClick(){
+    axios.get('http://localhost:3001/invitationCard')
+      .then(function (response) {
+
+        console.log("received");
+        console.log(response);
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+  render(){
+    
+    return (
+
+      <Button onClick={this.handleClick}>Get Test</Button>
+    );
+  }
+}
+
 class HomePage extends Component{
   
   render(){
@@ -62,6 +78,7 @@ class HomePage extends Component{
         <div>
         <RestCard></RestCard>
         <SheetButton></SheetButton>
+        <GetButton></GetButton>
         </div>
 
     );
@@ -96,6 +113,7 @@ class SheetButton extends Component{
   }
 }
 
+
 class RestCardCreator extends Component{
     constructor(props) {
     super(props);
@@ -105,6 +123,47 @@ class RestCardCreator extends Component{
   renderInput(i){
   
     return <GuestInput value={i}/>;
+  }
+
+
+  uploadInvitationCard(){
+
+    let bodyFormData = new FormData();
+    var information = document.getElementsByClassName("Form Entry");
+
+    
+    for (var i = 0; i < information.length; i++) {
+      var element = information[i];
+      var inputLabel = element.getElementsByClassName("FormInputLabel")[0];
+      var inputText = element.getElementsByClassName("FormData")[0];
+
+      var inputLabelCategory = inputLabel.innerHTML.slice(0,-1);
+      var inputTextResponse = inputText.children[0].children[0].value;
+      
+      bodyFormData.append(inputLabelCategory, inputTextResponse);
+      //bodyFormData[inputLabelCategory]=inputTextResponse;
+
+    }
+
+    //bodyFormData['image']=this.state.imagePreviewUrl;
+    bodyFormData.append('image',this.state.imagePreviewUrl);
+    //bodyFormData['file']=this.state.file;
+    console.log('xxxxx');
+    console.log(bodyFormData)
+    console.log('xxxxx');
+
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+    axios.post('http://localhost:3001/postRestCardCreator', bodyFormData, config)
+      .then(function (response) {
+        console.log("received");
+        console.log(response);
+      })
+      .catch(function (error) {
+    console.log(error);
+      });
+
+
+
   }
   _handleSubmit(e) {
     e.preventDefault();
@@ -157,14 +216,21 @@ class RestCardCreator extends Component{
 
        <button className="submitButton" 
             type="submit" 
-            onClick={(e)=>this._handleSubmit(e)}>Upload Image</button>
-
+            //onClick={(e)=>this._handleSubmit(e)}>Upload Invitation</button>
+            onClick={(e)=>this.uploadInvitationCard()}>Upload Invitation</button>
 
             </form>
       </Card>
     )
   }
 }
+
+
+
+
+
+
+
 
 class RestCard extends Component{
 
@@ -388,5 +454,5 @@ class GuestInput extends Component{
 
 }
 
-export default RestCard;
+export default HomePage;
 //export default RestCardCreator;
