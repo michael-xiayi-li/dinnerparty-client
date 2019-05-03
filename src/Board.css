@@ -1,0 +1,78 @@
+.Board {
+  text-align: center;
+
+}
+
+
+.square{
+	
+    background-color: white;
+	border: 2px outset black;
+}
+
+
+.CenterCard{
+	
+
+	width: 500px;
+	height: 500px;
+	position: absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	margin: auto;
+	border-color: black;
+
+
+}
+
+
+.RestImage{
+	
+	display:block;
+	margin: auto;
+	width: 500px;
+	height: 350px;
+}
+
+.CardText {
+	display:block;
+	margin: auto;
+	text-align: center;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+.CardButton{
+
+	display:block;
+	margin: auto;
+	margin-top:15px;
+
+
+}
+
+.FormTitle{
+	
+	display:block;
+	margin: auto;
+	text-align: center;
+	padding-top:10px;
+	padding-bottom:10px;
+	
+
+}
+
+.FormEntry {
+	
+	display:block;
+	margin: auto;
+	text-align:center;
+	padding-top:10px;
+	padding-bottom:10px;
+	
+
+
+
+}
