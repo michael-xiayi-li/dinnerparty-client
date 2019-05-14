@@ -36,6 +36,34 @@
 	height: 350px;
 }
 
+#centerDisplay{
+	display:inline-block;
+}
+
+.LeftArrowButton{
+
+	width: 100px;
+	height: 100px;
+	position: relative;
+	top:0;
+	bottom:400;
+	left:200;
+	right:0;
+
+}
+.RightArrowButton{
+
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:200;
+	margin: auto;
+	border-color: black;
+
+}
 .CardText {
 	display:block;
 	margin: auto;
@@ -45,6 +73,15 @@
 }
 
 .CardButton{
+
+	display:block;
+	margin: auto;
+	margin-top:15px;
+
+
+}
+
+.LeftCardButton{
 
 	display:block;
 	margin: auto;
