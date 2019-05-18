@@ -18,7 +18,6 @@ class HomePage extends Component {
                     <ProfileButton />
                 </div>
                 <div>
-                    <SheetButton />
                     <CreateButton />
                     <GetButton />
                 </div>
