@@ -58,8 +58,10 @@ class RestCardArg extends Component{
     axios.post('http://localhost:3001/invitationList',requestIndex)
       .then(function (response) {
         console.log(response);
-        self.setState({cardInfo: response.data, index: newIndex})
 
+        if(response.data!=null){
+        self.setState({cardInfo: response.data, index: newIndex})
+        }
         
 
       })
