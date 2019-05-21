@@ -91,9 +91,6 @@ class RestCardArg extends Component {
     return (
       <Router>
         <div>
-          <Button onClick={this.getGuestList}>Get Guest List</Button>
-          <button onClick={this.leftChoose}> Left </button>
-          <button onClick={this.rightChoose}> Right </button>
           <Card className="CenterCard">
             <img src={this.state.cardInfo.image} className="RestImage" />
 
@@ -101,14 +98,26 @@ class RestCardArg extends Component {
 
             <row className="CardText"> {this.state.cardInfo.Date} </row>
 
-            <Link to="/entryForm">
-              <button className="CardButton"> RSVP </button>
-            </Link>
-            <Route
-              path="/entryForm"
-              component={() => <GuestForm _id={this.state.cardInfo._id} />}
-            />
+            <div className="ButtonDiv">
+              <button className="LeftButton" onClick={this.leftChoose}>
+                {" "}
+                Left{" "}
+              </button>
+              <Link to="/entryForm">
+                <button className="CardButton"> RSVP </button>
+              </Link>
+              <Route
+                path="/entryForm"
+                component={() => <GuestForm _id={this.state.cardInfo._id} />}
+              />
+              <button className="RightButton" onClick={this.rightChoose}>
+                {" "}
+                Right{" "}
+              </button>
+            </div>
           </Card>
+
+          <Button onClick={this.getGuestList}>Get Guest List</Button>
         </div>
       </Router>
     );

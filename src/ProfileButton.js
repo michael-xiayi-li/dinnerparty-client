@@ -1,12 +1,29 @@
+import React, { Component } from "react";
+import TypeFormInvite from "./TypeFormInvite.js";
+import {
+	BrowserRouter as Router,
+	Link,
+	Route,
+	Redirect
+} from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
-import React, { Component } from 'react';
-import TypeFormInvite from './TypeFormInvite.js';
-import {BrowserRouter as Router, Link, Route,Redirect} from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+class ProfileButton extends Component {
+	constructor(props) {
+		super(props);
+		this.handleClick = this.handleClick.bind(this);
+	}
+	handleClick = () => {
+		window.open("https://michaelli050007.typeform.com/to/axIBzW");
+	};
 
-class ProfileButton extends Component{
-  render(){
-
+	render() {
+		return (
+			<div>
+				<Button onClick={this.handleClick}>Make A Profile</Button>
+			</div>
+		);
+		/*
     return (
 
       <Router>
@@ -16,8 +33,8 @@ class ProfileButton extends Component{
       <Route path ='/profileInput' component={TypeFormInvite}></Route>
       </Router>
     );
-  }
-
+    */
+	}
 }
 
 export default ProfileButton;

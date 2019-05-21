@@ -1,115 +1,103 @@
 .Board {
-  text-align: center;
-
+	text-align: center;
 }
 
-
-.square{
-	
-    background-color: white;
+.square {
+	background-color: white;
 	border: 2px outset black;
 }
 
-
-.CenterCard{
-	
-
+.CenterCard {
 	width: 500px;
 	height: 500px;
 	position: absolute;
-	top:0;
-	bottom:0;
-	left:0;
-	right:0;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	margin: auto;
 	border-color: black;
-
-
 }
 
-
-.RestImage{
-	
-	display:block;
+.RestImage {
+	display: block;
 	margin: auto;
 	width: 500px;
 	height: 350px;
 }
 
-#centerDisplay{
-	display:inline-block;
+#centerDisplay {
+	display: inline-block;
 }
 
-.LeftArrowButton{
-
+.LeftArrowButton {
 	width: 100px;
 	height: 100px;
 	position: relative;
-	top:0;
-	bottom:400;
-	left:200;
-	right:0;
-
+	top: 0;
+	bottom: 400;
+	left: 200;
+	right: 0;
 }
-.RightArrowButton{
-
+.RightArrowButton {
 	width: 100px;
 	height: 100px;
 	position: absolute;
-	top:0;
-	bottom:0;
-	left:0;
-	right:200;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 200;
 	margin: auto;
 	border-color: black;
-
 }
 .CardText {
-	display:block;
+	display: block;
 	margin: auto;
 	text-align: center;
-	padding-top:10px;
-	padding-bottom:10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
-.CardButton{
+.CardButton {
+	display: inline-block;
+	margin-left: 34%;
+	margin-top: 7%;
+	border-radius: 4px;
+	background-color: white;
+}
 
-	display:block;
+.LeftButton {
+	display: inline-block;
+	margin-left: 3%;
+	border-radius: 4px;
+	background-color: white;
+}
+
+.RightButton {
+	display: inline-block;
+	margin-left: 33%;
+	border-radius: 4px;
+	background-color: white;
+}
+
+.LeftCardButton {
+	display: block;
 	margin: auto;
-	margin-top:15px;
-
-
+	margin-top: 15px;
 }
 
-.LeftCardButton{
-
-	display:block;
-	margin: auto;
-	margin-top:15px;
-
-
-}
-
-.FormTitle{
-	
-	display:block;
+.FormTitle {
+	display: block;
 	margin: auto;
 	text-align: center;
-	padding-top:10px;
-	padding-bottom:10px;
-	
-
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 .FormEntry {
-	
-	display:block;
+	display: block;
 	margin: auto;
-	text-align:center;
-	padding-top:10px;
-	padding-bottom:10px;
-	
-
-
-
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
