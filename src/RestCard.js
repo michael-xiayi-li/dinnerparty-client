@@ -1,44 +1,47 @@
+import React, { Component } from "react";
+import {
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Redirect
+} from "react-router-dom";
+import Card from "@material-ui/core/Card";
+import GuestForm from "./GuestForm.js";
+import Button from "@material-ui/core/Button";
+import ResponsiveContainer from "recharts/lib/component/ResponsiveContainer";
+import Paper from "@material-ui/core/Paper";
 
-import React, { Component } from 'react';
-import {BrowserRouter as Router, Link, Route,Redirect} from 'react-router-dom';
-import Card from '@material-ui/core/Card';
-import GuestForm from './GuestForm.js';
-
-class RestCard extends Component{
-
-
+class RestCard extends Component {
   constructor(props) {
-  super(props);
+    super(props);
     this.state = {
-      image: 'ramen.jpg',
+      image: "ramen.jpg",
       description: "description for party",
-      date: "08/04/1997",
+      date: "08/04/1997"
     };
   }
-   render(){
+  render() {
+    // let cardImage = require(this.state.image);
 
-     // let cardImage = require(this.state.image);
-  
-      return (
-        <Router>
-        <Card className= "CenterCard">
+    return (
+      <Router>
+        <ResponsiveContainer width="50%" height={320}>
+          <Card className="CenterCard">
+            <img src={this.state.image} className="RestImage" />
 
-          <img src = {this.state.image} className="RestImage"/>
+            <row className="CardText"> {this.state.description}</row>
 
-        <row className="CardText"> {this.state.description}</row>
+            <row className="CardText"> {this.state.date} </row>
 
-        <row className="CardText"> {this.state.date} </row>
-
-        <Link to='/entryForm'>
-        <button className="CardButton"> RSVP </button>
-        </Link>
-        <Route path = '/entryForm' component = {GuestForm} ></Route>
-        </Card>
-        </Router>
-
-
-      );
-   }
+            <Link to="/entryForm">
+              <Button className="CardButton"> RSVP </Button>
+            </Link>
+            <Route path="/entryForm" component={GuestForm} />
+          </Card>
+        </ResponsiveContainer>
+      </Router>
+    );
+  }
 }
 
 export default RestCard;

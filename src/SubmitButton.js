@@ -23,6 +23,7 @@ class SubmitButton extends Component {
 
       var inputLabelCategory = inputLabel.innerHTML.slice(0, -1);
       var inputTextResponse = inputText.children[0].children[0].value;
+
       bodyFormData[inputLabelCategory] = inputTextResponse;
     }
 

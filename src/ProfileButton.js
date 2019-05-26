@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TypeFormInvite from "./TypeFormInvite.js";
+import ListItem from "@material-ui/core/ListItem";
 import {
 	BrowserRouter as Router,
 	Link,
@@ -19,9 +20,9 @@ class ProfileButton extends Component {
 
 	render() {
 		return (
-			<div>
-				<Button onClick={this.handleClick}>Make A Profile</Button>
-			</div>
+			<ListItem button onClick={this.handleClick}>
+				Make A Profile
+			</ListItem>
 		);
 		/*
     return (
