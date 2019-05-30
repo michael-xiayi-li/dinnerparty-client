@@ -24,17 +24,6 @@ class ProfileButton extends Component {
 				Make A Profile
 			</ListItem>
 		);
-		/*
-    return (
-
-      <Router>
-
-      <Link to = '/profileInput'>
-      <Button >Make A Profile</Button></Link>
-      <Route path ='/profileInput' component={TypeFormInvite}></Route>
-      </Router>
-    );
-    */
 	}
 }
 

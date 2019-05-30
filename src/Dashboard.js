@@ -18,7 +18,16 @@ import { mainListItems, secondaryListItems } from "./listItems";
 import SimpleLineChart from "./SimpleLineChart";
 import SimpleTable from "./SimpleTable";
 import RestCardArg from "./RestCardArg.js";
-import { Router, Redirect } from "react-router-dom";
+import { Router, Redirect, Route, Link } from "react-router-dom";
+import axios from "axios";
+import CreateButton from "./CreateButton.js";
+import ProfileButton from "./ProfileButton.js";
+import ListItem from "@material-ui/core/ListItem";
+import SheetButton from "./SheetButton.js";
+import AdminButton from "./AdminButton.js";
+import GuestForm from "./GuestForm.js";
+import InvitationButton from "./InvitationButton.js";
+import SignIn from "./SignIn.js";
 
 const drawerWidth = 240;
 
@@ -100,17 +109,53 @@ const styles = theme => ({
 });
 
 class Dashboard extends React.Component {
-  state = {
-    open: true
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      cardInfo: "",
+      index: 0
+    };
+    this.onCardIndexUpdate = this.onCardIndexUpdate.bind(this);
+    this.setCardDetails = this.setCardDetails.bind(this);
+    this.setCardDetails();
+  }
 
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
+  setCardDetails() {
+    var self = this;
+    var index = this.state.index;
+    var requestIndex = { index: index };
+    axios
+      .post("http://localhost:3001/invitationList", requestIndex)
+      .then(function(response) {
+        console.log(response);
+        if (response.data != null) {
+          self.setState({ cardInfo: response.data, index: index });
+          //update getButton component here
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
+  onCardIndexUpdate(indexChange) {
+    var self = this;
+    var index = this.state.index;
+    var newIndex = Math.max(index + indexChange, 0);
+    var requestIndex = { index: newIndex };
+    axios
+      .post("http://localhost:3001/invitationList", requestIndex)
+      .then(function(response) {
+        console.log(response);
+        if (response.data != null) {
+          self.setState({ cardInfo: response.data, index: newIndex });
+          //update getButton component here
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 
   render() {
     const { classes } = this.props;
@@ -120,26 +165,9 @@ class Dashboard extends React.Component {
         <CssBaseline />
         <AppBar
           position="absolute"
-          className={classNames(
-            classes.appBar,
-            this.state.open && classes.appBarShift
-          )}
+          className={classNames(classes.appBar, classes.appBarShift)}
         >
-          <Toolbar
-            disableGutters={!this.state.open}
-            className={classes.toolbar}
-          >
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerOpen}
-              className={classNames(
-                classes.menuButton,
-                this.state.open && classes.menuButtonHidden
-              )}
-            >
-              <MenuIcon />
-            </IconButton>
+          <Toolbar className={classes.toolbar}>
             <Typography
               component="h1"
               variant="h6"
@@ -159,27 +187,35 @@ class Dashboard extends React.Component {
         <Drawer
           variant="permanent"
           classes={{
-            paper: classNames(
-              classes.drawerPaper,
-              !this.state.open && classes.drawerPaperClose
-            )
+            paper: classNames(classes.drawerPaper, false)
           }}
-          open={this.state.open}
         >
-          <div className={classes.toolbarIcon}>
-            <IconButton onClick={this.handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
+          <div className={classes.toolbarIcon} />
           <Divider />
-          <List>{mainListItems}</List>
+          <List>
+            <div>
+              <InvitationButton />
+              <ProfileButton />
+              <SheetButton cardInfo={this.state.cardInfo} />
+              <AdminButton />
+            </div>
+          </List>
           <Divider />
           <List>{secondaryListItems}</List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
           <Typography component="div" className={classes.chartContainer}>
-            <RestCardArg />
+            <Route
+              path="/invitations"
+              component={() => (
+                <RestCardArg
+                  cardInfo={this.state.cardInfo}
+                  updateIndex={this.onCardIndexUpdate}
+                />
+              )}
+            />
+            <Route path="/admin" component={SignIn} />
           </Typography>
         </main>
       </div>
@@ -187,6 +223,12 @@ class Dashboard extends React.Component {
   }
 }
 
+/*
+            <RestCardArg
+              cardInfo={this.state.cardInfo}
+              updateIndex={this.onCardIndexUpdate}
+            />
+            */
 //replace "SimpleLineChart" with RestCard when formatting is found
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired

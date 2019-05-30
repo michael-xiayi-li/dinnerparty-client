@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import axios from "axios";
 import {
   BrowserRouter as Router,
@@ -6,6 +7,7 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
 import GuestForm from "./GuestForm.js";
 import Card from "@material-ui/core/Card";
 import GuestInput from "./GuestInput.js";
@@ -13,6 +15,8 @@ import SheetButton from "./SheetButton.js";
 import Button from "@material-ui/core/Button";
 import ResponsiveContainer from "recharts/lib/component/ResponsiveContainer";
 import Modal from "react-modal";
+import AdminButton from "./AdminButton.js";
+import SignIn from "./SignIn.js";
 
 const customStyles = {
   content: {
@@ -25,31 +29,44 @@ const customStyles = {
   }
 };
 
-const cardStyles = {
-  content: {
-    left: "50%",
-    right: "auto"
+const styles = theme => ({
+  leftButton: {
+    display: "inline-block",
+    marginLeft: "0%",
+    marginTop: "1%",
+    borderRadius: "4px",
+    backgroundColor: "white"
+  },
+  rsvpButton: {
+    display: "inline-block",
+    marginLeft: "30%",
+    marginTop: "1%",
+    borderRadius: "4px",
+    backgroundColor: "white"
+  },
+  rightButton: {
+    display: "inline-block",
+    marginLeft: "30%",
+    marginTop: "1%",
+    borderRadius: "4px",
+    backgroundColor: "white"
   }
-};
+});
 
 class RestCardArg extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      cardInfo: props,
-      index: 0,
       modalIsOpen: false
     };
-
-    this.leftChoose = this.leftChoose.bind(this);
-    this.rightChoose = this.rightChoose.bind(this);
-    this.getGuestList = this.getGuestList.bind(this);
-    this.setCardDetails = this.setCardDetails.bind(this);
 
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+
+    this.leftUpdate = this.leftUpdate.bind(this);
+    this.rightUpdate = this.rightUpdate.bind(this);
   }
 
   openModal() {
@@ -64,96 +81,34 @@ class RestCardArg extends Component {
     this.setState(nextState);
   }
 
-  setCardDetails() {
-    var self = this;
-    axios
-      .get("http://localhost:3001/invitationCard")
-      .then(function(response) {
-        console.log(response);
-        self.setState(response.data);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
-  getGuestList() {
-    var cardId = this.state.cardInfo._id;
-    console.log(cardId);
-    axios
-      .get("http://localhost:3001/createGuestSheet", {
-        params: {
-          cardId: cardId
-        }
-      })
-      .then(function(response) {
-        console.log("received");
-        var sheetURL = response["data"]["spreadsheetID"];
-        console.log(response["data"]["spreadsheetID"]);
-
-        window.open("https://docs.google.com/spreadsheets/d/" + sheetURL);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+  leftUpdate() {
+    this.props.updateIndex(-1);
   }
 
-  leftChoose() {
-    var self = this;
-    var index = this.state.index;
-    var newIndex = Math.max(index - 1, 0);
-    var requestIndex = { index: newIndex };
-
-    axios
-      .post("http://localhost:3001/invitationList", requestIndex)
-      .then(function(response) {
-        console.log(response);
-        self.setState({ cardInfo: response.data, index: newIndex });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
-
-  rightChoose() {
-    var self = this;
-    var index = this.state.index;
-    var newIndex = index + 1;
-    var requestIndex = { index: newIndex };
-    console.log("index: " + newIndex);
-
-    axios
-      .post("http://localhost:3001/invitationList", requestIndex)
-      .then(function(response) {
-        console.log(response);
-
-        if (response.data != null) {
-          self.setState({ cardInfo: response.data, index: newIndex });
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+  rightUpdate() {
+    this.props.updateIndex(1);
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <ResponsiveContainer width={500} height={320}>
         <div>
           <Card className="CenterCard">
-            <img src={this.state.cardInfo.image} className="RestImage" />
+            <img src={this.props.cardInfo.image} className="RestImage" />
 
-            <row className="CardText"> {this.state.cardInfo.Description}</row>
+            <row className="CardText"> {this.props.cardInfo.Description}</row>
 
-            <row className="CardText"> {this.state.cardInfo.Date} </row>
+            <row className="CardText"> {this.props.cardInfo.Date} </row>
 
-            <button className="LeftButton" onClick={this.leftChoose}>
+            <Button className={classes.leftButton} onClick={this.leftUpdate}>
               {" "}
               Left{" "}
-            </button>
-            <button className="CardButton" onClick={this.openModal}>
+            </Button>
+            <Button className={classes.rsvpButton} onClick={this.openModal}>
               {" "}
               RSVP{" "}
-            </button>
+            </Button>
 
             <Modal
               isOpen={this.state.modalIsOpen}
@@ -162,20 +117,23 @@ class RestCardArg extends Component {
               style={customStyles}
             >
               <GuestForm
-                _id={this.state.cardInfo._id}
+                _id={this.props.cardInfo._id}
                 close={this.closeModal}
               />
             </Modal>
-            <button className="RightButton" onClick={this.rightChoose}>
+            <Button className={classes.rightButton} onClick={this.rightUpdate}>
               {" "}
               Right{" "}
-            </button>
+            </Button>
           </Card>
-          <Button onClick={this.getGuestList}>Get Guest List</Button>
         </div>
       </ResponsiveContainer>
     );
   }
 }
 
-export default RestCardArg;
+RestCardArg.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(RestCardArg);
